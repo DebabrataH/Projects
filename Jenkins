@@ -1,0 +1,17 @@
+pipeline{
+    tools{
+        jdk 'myjava'
+        maven 'mymvn'
+    }
+    agent none
+      stages{
+           stage('Checkout'){
+               agent any
+               steps{
+                 git 'https://github.com/edureka-devops/projCert.git'
+              }
+          }
+          
+          
+      }
+}
