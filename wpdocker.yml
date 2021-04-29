@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+    mydb:
+        image: mysql:8.0.12
+        container_name: mysql_container
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: wpdb
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+        restart: always
+        volumes:
+            -   'mydb2-data:/var/lib/mysql'
+
+    mywp:
+        image: wordpress
+        container_name: wordpress_Container
+        depends_on: ['mydb']
+        links:
+            -   mydb:mydb
+        ports:
+            -   80:80
+        environment:
+            WORDPRESS_DB_HOST: mydb
+            WORDPRESS_DB_USER: user
+            WORDPRESS_DB_PASSWORD: password
+            WORDPRESS_DB_NAME: wpdb
+        volumes:
+            -   '/home/ec2-user/mywordpress-data:/var/www/html'
+
+
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:4.7
+        depends_on:
+            -   mydb
+        environment:
+            PMA_HOST: mydb
+            PMA_PASSWORD: password
+        container_name: phpymyadmin_container
+        restart: always
