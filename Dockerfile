@@ -1,15 +1,5 @@
-FROM centos
+FROM php:7.2-apache
 
-MAINTAINER debabratah51@gmail.com
+COPY website/ /var/www/html/
 
-# Install Apache Server
-RUN yum install httpd -y
-
-ADD https://github.com/edureka-devops/projCert.git /var/www/html/
-WORKDIR /var/www/html
-RUN cp -rvf index.php/* .
-# Start Apache Server
-CMD [“/usr/sbin/httpd”,” -D”,” FOREGROUND”]
-
-# For port mapping
 EXPOSE 80
